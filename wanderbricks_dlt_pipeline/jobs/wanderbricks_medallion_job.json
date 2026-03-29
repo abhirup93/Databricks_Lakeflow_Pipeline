@@ -1,0 +1,36 @@
+{
+  "_comment": "CI/CD-ready job definition for wanderbricks_medallion_job. Use POST /api/2.1/jobs/create to create, or POST /api/2.1/jobs/reset to update.",
+  "name": "wanderbricks_medallion_job",
+  "description": "Scheduled job to trigger the wanderbricks DLT medallion pipeline daily at 6:00 AM IST.",
+  "schedule": {
+    "quartz_cron_expression": "0 0 6 * * ?",
+    "timezone_id": "Asia/Kolkata",
+    "pause_status": "UNPAUSED"
+  },
+  "tasks": [
+    {
+      "task_key": "run_wanderbricks_pipeline",
+      "description": "Trigger incremental DLT pipeline run (no full refresh)",
+      "pipeline_task": {
+        "pipeline_id": "bd7c220a-022a-4a90-8298-9a9cda3d884f",
+        "full_refresh": false
+      }
+    }
+  ],
+  "max_concurrent_runs": 1,
+  "tags": {
+    "project": "wanderbricks_dlt",
+    "team": "data_engineering",
+    "schedule": "6am_IST",
+    "pipeline": "wanderbricks_medallion_pipeline",
+    "layer": "medallion"
+  },
+  "_job_id": 614144822683644,
+  "_usage": {
+    "create_via_api": "POST https://<workspace-host>/api/2.1/jobs/create  -H 'Authorization: Bearer <token>'  -d @wanderbricks_medallion_job.json",
+    "update_via_api": "POST https://<workspace-host>/api/2.1/jobs/reset  -H 'Authorization: Bearer <token>'  -d '{\"job_id\": 614144822683644, \"new_settings\": <contents of this file>}'",
+    "run_now_via_api": "POST https://<workspace-host>/api/2.1/jobs/run-now  -H 'Authorization: Bearer <token>'  -d '{\"job_id\": 614144822683644}'",
+    "create_via_cli": "databricks jobs create --json @wanderbricks_medallion_job.json",
+    "create_via_python_sdk": "from databricks.sdk import WorkspaceClient; w = WorkspaceClient(); w.jobs.create(**job_settings)"
+  }
+}

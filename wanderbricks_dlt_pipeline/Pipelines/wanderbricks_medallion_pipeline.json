@@ -1,0 +1,62 @@
+{
+  "_comment": "CI/CD-ready pipeline definition for wanderbricks_medallion_pipeline. Use POST /api/2.0/pipelines to create, or PATCH /api/2.0/pipelines/{pipeline_id} to update.",
+  "name": "wanderbricks_medallion_pipeline",
+  "catalog": "main",
+  "target": "wanderbricks_gold",
+  "channel": "CURRENT",
+  "continuous": false,
+  "development": false,
+  "serverless": true,
+  "libraries": [
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/ingestion/bronze/bronze_bookings.sql"
+      }
+    },
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/ingestion/bronze/bronze_properties.sql"
+      }
+    },
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/ingestion/bronze/bronze_reviews.sql"
+      }
+    },
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/transformations/silver/silver_bookings.sql"
+      }
+    },
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/transformations/silver/silver_properties.sql"
+      }
+    },
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/transformations/gold/gold_property_performance.sql"
+      }
+    },
+    {
+      "notebook": {
+        "path": "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_project/transformations/gold/gold_price_prediction.sql"
+      }
+    }
+  ],
+  "tags": {
+    "project": "wanderbricks_dlt",
+    "team": "data_engineering",
+    "layer": "medallion",
+    "pipeline": "wanderbricks_medallion_pipeline",
+    "schedule": "6am_IST"
+  },
+  "_pipeline_id": "bd7c220a-022a-4a90-8298-9a9cda3d884f",
+  "_usage": {
+    "create_via_api": "POST https://<workspace-host>/api/2.0/pipelines  -H 'Authorization: Bearer <token>'  -d @wanderbricks_medallion_pipeline.json",
+    "update_via_api": "PUT https://<workspace-host>/api/2.0/pipelines/bd7c220a-022a-4a90-8298-9a9cda3d884f  -H 'Authorization: Bearer <token>'  -d @wanderbricks_medallion_pipeline.json",
+    "trigger_run_via_api": "POST https://<workspace-host>/api/2.0/pipelines/bd7c220a-022a-4a90-8298-9a9cda3d884f/updates  -H 'Authorization: Bearer <token>'  -d '{\"full_refresh\": false}'",
+    "create_via_cli": "databricks pipelines create --json @wanderbricks_medallion_pipeline.json",
+    "create_via_python_sdk": "from databricks.sdk import WorkspaceClient; w = WorkspaceClient(); w.pipelines.create(**pipeline_settings)"
+  }
+}
