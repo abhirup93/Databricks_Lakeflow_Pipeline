@@ -1,0 +1,41 @@
+# A sample job for Databricks_Lakeflow_Pipeline.
+
+resources:
+  jobs:
+    wanderbricks_medallion_job:
+      name: wanderbricks_medallion_job - ${bundle.target}
+
+      schedule:
+        quartz_cron_expression: "0 0 0 * * ?"
+        timezone_id: Asia/Calcutta
+        pause_status: PAUSED
+
+      #email_notifications:
+      #  on_failure:
+      #    - your_email@example.com
+
+      # parameters:
+      #   - name: catalog
+      #     default: ${var.catalog}
+      #   - name: schema
+      #     default: ${var.schema}
+
+      tasks:
+        - task_key: run_wanderbricks_pipeline
+          pipeline_task:
+            pipeline_id: ${resources.pipelines.wanderbricks_medallion_pipeline.id}
+            full_refresh: true
+
+      queue:
+        enabled: true
+
+      performance_target: PERFORMANCE_OPTIMIZED
+
+      tags:
+        project: wanderbricks_dlt
+        team: data_engineering
+        layer: medallion
+        pipeline: wanderbricks_medallion_pipeline
+        schedule: 6am_IST
+        environment: ${bundle.target}
+        managed_by: databricks-asset-bundles

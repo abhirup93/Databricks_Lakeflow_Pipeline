@@ -1,0 +1,52 @@
+# This is a Databricks asset bundle definition for Databricks_Lakeflow_Pipeline.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: Databricks_Lakeflow_Pipeline
+  uuid: 3398a9cd-1696-484a-be5d-c52b4fe0b6fa
+
+include:
+  - resources/*.yml
+
+# Variable declarations. These variables are assigned in the dev/uat/prod targets below.
+variables:
+  catalog:
+    description: Unity Catalog name — different per environment
+    default: main
+  schema:
+    description: Output schema for the DLT pipeline
+    default: wanderbricks_pipeline
+
+targets:
+  dev:
+    # The default target uses 'mode: development' to create a development copy.
+    # - Deployed resources get prefixed with '[dev my_user_name]'
+    # - Any job schedules and triggers are paused by default.
+    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-b969ce2a-e147.cloud.databricks.com
+    variables:
+      catalog: main
+      schema: wanderbricks_pipeline_dev
+  uat:
+    mode: sit
+    workspace:
+      host: https://dbc-b969ce2a-e147.cloud.databricks.com
+      # We explicitly deploy to /Workspace/Users/abhirup.pal93@outlook.com to make sure we only have a single copy.
+      root_path: /Workspace/Users/abhirup.pal93@outlook.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: main
+      schema: wanderbricks_pipeline_uat
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-b969ce2a-e147.cloud.databricks.com
+      # We explicitly deploy to /Workspace/Users/abhirup.pal93@outlook.com to make sure we only have a single copy.
+      root_path: /Workspace/Users/abhirup.pal93@outlook.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: main
+      schema: wanderbricks_pipeline
+    permissions:
+      - user_name: abhirup.pal93@outlook.com
+        level: CAN_MANAGE

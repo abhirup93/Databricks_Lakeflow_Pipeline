@@ -1,0 +1,39 @@
+# The main pipeline for Databricks_Lakeflow_Pipeline
+
+resources:
+  pipelines:
+    wanderbricks_medallion_pipeline:
+      name: wanderbricks_medallion_pipeline - ${bundle.target}
+      catalog: ${var.catalog}
+      schema: ${var.schema}
+      serverless: true
+      photon: true
+      channel: CURRENT
+      continuous: false
+      development: false
+      root_path: "/Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline"
+
+      libraries:
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/ingestion/bronze/bronze_bookings.sql
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/ingestion/bronze/bronze_properties.sql
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/ingestion/bronze/bronze_reviews.sql
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/transformations/silver/silver_bookings.sql
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/transformations/silver/silver_properties.sql
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/transformations/gold/gold_price_prediction.sql
+        - glob:
+            include: /Workspace/Users/abhirup.pal93@outlook.com/Databricks_Lakeflow_Pipeline/wanderbricks_dlt_pipeline/transformations/gold/gold_property_performance.sql
+      
+      tags:
+        project: wanderbricks_dlt
+        team: data_engineering
+        layer: medallion
+        pipeline: wanderbricks_medallion_pipeline
+        schedule: 6am_IST
+        environment: ${bundle.target}
+        managed_by: databricks-asset-bundles
