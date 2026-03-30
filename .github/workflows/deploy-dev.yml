@@ -1,6 +1,5 @@
 name: Deploy — Dev
 
-# Triggers when code is pushed to dev branch
 on:
   push:
     branches:
@@ -16,7 +15,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
 
-    # Prevents two deploys running at the same time
+    # ↓ This tells every step to run from this subfolder automatically
+    # No more cd in every step
+    defaults:
+      run:
+        working-directory: Databricks_Lakeflow_Pipeline
+
     concurrency:
       group: deploy-dev
       cancel-in-progress: true
@@ -28,7 +32,7 @@ jobs:
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
 
-      - name: Validate bundle first
+      - name: Validate bundle
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
@@ -40,7 +44,7 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy --target dev
 
-      - name: Print summary
+      - name: Summary
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

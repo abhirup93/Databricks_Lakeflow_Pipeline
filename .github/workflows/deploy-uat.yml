@@ -14,8 +14,10 @@ jobs:
     name: Deploy to UAT
     runs-on: ubuntu-latest
     environment: uat
-    # ↑ GitHub pauses here and waits for reviewer approval
-    #   before running any steps below
+
+    defaults:
+      run:
+        working-directory: Databricks_Lakeflow_Pipeline
 
     concurrency:
       group: deploy-uat
@@ -40,7 +42,7 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy --target uat
 
-      - name: Print summary
+      - name: Summary
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

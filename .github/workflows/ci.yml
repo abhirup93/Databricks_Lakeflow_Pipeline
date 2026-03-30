@@ -1,6 +1,5 @@
 name: CI — Validate Bundle
 
-# Runs when a PR is opened or updated targeting any main branch
 on:
   pull_request:
     branches:
@@ -8,14 +7,18 @@ on:
       - uat
       - master
     paths:
-      - 'resources/**'
-      - 'databricks.yml'
+      - 'Databricks_Lakeflow_Pipeline/resources/**'
+      - 'Databricks_Lakeflow_Pipeline/databricks.yml'
       - 'wanderbricks_dlt_pipeline/**'
 
 jobs:
   validate:
     name: Validate DAB Bundle
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Databricks_Lakeflow_Pipeline
 
     steps:
       - name: Checkout code
@@ -29,5 +32,3 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle validate --target dev
-        # We validate against dev target — catches all config errors
-        # without touching uat or prod resources
