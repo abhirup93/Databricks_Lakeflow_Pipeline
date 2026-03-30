@@ -5,10 +5,10 @@ on:
     branches:
       - dev
     paths:
-      - 'Databricks_Lakeflow_Pipeline/resources/**'
-      - 'Databricks_Lakeflow_Pipeline/databricks.yml'
-      - 'Databricks_Lakeflow_Pipeline/**'
-      - 'Databricks_Lakeflow_Pipeline/.github/workflows/deploy-dev.yml'
+      - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/resources/**'
+      - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/databricks.yml'
+      - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/**'
+      - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/.github/workflows/deploy-dev.yml'
 
 jobs:
   deploy-dev:

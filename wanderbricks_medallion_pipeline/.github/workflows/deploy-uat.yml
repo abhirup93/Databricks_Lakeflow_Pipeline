@@ -1,32 +1,35 @@
-name: Deploy — Dev
+name: Deploy — UAT
 
 on:
-  push:
-    branches:
-      - dev
-    paths:
-      - 'Databricks_Lakeflow_Pipeline/resources/**'
-      - 'Databricks_Lakeflow_Pipeline/databricks.yml'
-      - 'Databricks_Lakeflow_Pipeline/**'
-      - 'Databricks_Lakeflow_Pipeline/.github/workflows/deploy-dev.yml'
+  # Only triggers when manually started from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Branch to deploy from (should be uat)"
+        required: true
+        default: "uat"
 
 jobs:
-  deploy-dev:
-    name: Deploy to Dev
+  deploy-uat:
+    name: Deploy to UAT
     runs-on: ubuntu-latest
-    environment: dev
+    environment: uat
+    # ↑ GitHub pauses here and waits for reviewer approval
+    #   before running any steps below
 
     defaults:
       run:
         working-directory: Databricks_Lakeflow_Pipeline
 
     concurrency:
-      group: deploy-dev
-      cancel-in-progress: true
+      group: deploy-uat
+      cancel-in-progress: false
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: uat    # ← always deploys from uat branch
 
       - name: Setup Databricks CLI
         uses: databricks/setup-cli@main
@@ -35,18 +38,18 @@ jobs:
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle validate --target dev
+        run: databricks bundle validate --target uat
 
-      - name: Deploy to dev
+      - name: Deploy to UAT
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-        run: databricks bundle deploy --target dev
+        run: databricks bundle deploy --target uat
 
       - name: Print summary
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          echo "✅ Dev deployment complete"
-          databricks bundle summary --target dev
+          echo "✅ UAT deployment complete"
+          databricks bundle summary --target uat
