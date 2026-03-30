@@ -10,6 +10,7 @@ on:
       - 'Databricks_Lakeflow_Pipeline/resources/**'
       - 'Databricks_Lakeflow_Pipeline/databricks.yml'
       - 'wanderbricks_dlt_pipeline/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
   validate:
