@@ -19,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: .
+        working-directory: wanderbricks_medallion_pipeline
 
     steps:
       - name: Checkout code

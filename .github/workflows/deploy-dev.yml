@@ -18,7 +18,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: .
+        working-directory: wanderbricks_medallion_pipeline
 
     concurrency:
       group: deploy-dev
