@@ -1,0 +1,49 @@
+name: Deploy — Dev
+
+# Triggers when code is pushed to dev branch
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - 'Databricks_Lakeflow_Pipeline/resources/**'
+      - 'Databricks_Lakeflow_Pipeline/databricks.yml'
+      - 'wanderbricks_dlt_pipeline/**'
+
+jobs:
+  deploy-dev:
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    environment: dev
+
+    # Prevents two deploys running at the same time
+    concurrency:
+      group: deploy-dev
+      cancel-in-progress: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate bundle first
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle validate --target dev
+
+      - name: Deploy to dev
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle deploy --target dev
+
+      - name: Print summary
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          echo "✅ Dev deployment complete"
+          databricks bundle summary --target dev

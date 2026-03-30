@@ -38,7 +38,7 @@ targets:
     variables:
       catalog: main
       schema: wanderbricks_pipeline_uat
-  prod:
+  master:
     mode: production
     workspace:
       host: https://dbc-b969ce2a-e147.cloud.databricks.com

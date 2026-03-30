@@ -1,0 +1,49 @@
+name: Deploy — UAT
+
+on:
+  push:
+    branches:
+      - uat
+    paths:
+      - 'Databricks_Lakeflow_Pipeline/resources/**'
+      - 'Databricks_Lakeflow_Pipeline/databricks.yml'
+      - 'wanderbricks_dlt_pipeline/**'
+
+jobs:
+  deploy-uat:
+    name: Deploy to UAT
+    runs-on: ubuntu-latest
+    environment: uat
+    # ↑ GitHub pauses here and waits for reviewer approval
+    #   before running any steps below
+
+    concurrency:
+      group: deploy-uat
+      cancel-in-progress: false
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate bundle
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle validate --target uat
+
+      - name: Deploy to UAT
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: databricks bundle deploy --target uat
+
+      - name: Print summary
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+        run: |
+          echo "✅ UAT deployment complete"
+          databricks bundle summary --target uat
