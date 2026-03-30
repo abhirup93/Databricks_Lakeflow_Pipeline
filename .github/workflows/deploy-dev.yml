@@ -8,6 +8,7 @@ on:
       - 'Databricks_Lakeflow_Pipeline/resources/**'
       - 'Databricks_Lakeflow_Pipeline/databricks.yml'
       - 'wanderbricks_dlt_pipeline/**'
+      - '.github/workflows/deploy-dev.yml'
 
 jobs:
   deploy-dev:
@@ -15,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
 
-    # ↓ This tells every step to run from this subfolder automatically
-    # No more cd in every step
     defaults:
       run:
         working-directory: Databricks_Lakeflow_Pipeline
@@ -44,7 +43,7 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy --target dev
 
-      - name: Summary
+      - name: Print summary
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

@@ -8,6 +8,7 @@ on:
       - 'Databricks_Lakeflow_Pipeline/resources/**'
       - 'Databricks_Lakeflow_Pipeline/databricks.yml'
       - 'wanderbricks_dlt_pipeline/**'
+      - '.github/workflows/deploy-prod.yml'
 
   workflow_dispatch:
     inputs:
@@ -62,7 +63,7 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy --target master
 
-      - name: Tag deployment
+      - name: Tag deployment in Git
         working-directory: ${{ github.workspace }}
         run: |
           git config user.name "github-actions[bot]"
@@ -70,7 +71,7 @@ jobs:
           git tag "deployed-prod-$(date +%Y%m%d-%H%M%S)"
           git push origin --tags
 
-      - name: Summary
+      - name: Print summary
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}

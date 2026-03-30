@@ -8,6 +8,7 @@ on:
       - 'Databricks_Lakeflow_Pipeline/resources/**'
       - 'Databricks_Lakeflow_Pipeline/databricks.yml'
       - 'wanderbricks_dlt_pipeline/**'
+      - '.github/workflows/deploy-uat.yml'
 
 jobs:
   deploy-uat:
@@ -42,7 +43,7 @@ jobs:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: databricks bundle deploy --target uat
 
-      - name: Summary
+      - name: Print summary
         env:
           DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
