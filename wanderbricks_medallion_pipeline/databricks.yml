@@ -1,0 +1,47 @@
+bundle:
+  name: wanderbricks_medallion_pipeline
+  uuid: 3398a9cd-1696-484a-be5d-c52b4fe0b6fa
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog name — different per environment
+    default: main
+  schema:
+    description: Output schema for the DLT pipeline
+    default: wanderbricks_pipeline
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-b969ce2a-e147.cloud.databricks.com
+    variables:
+      catalog: main
+      schema: wanderbricks_pipeline_dev
+    resources:
+      pipelines:
+        wanderbricks_medallion_pipeline:
+          development: true
+
+  uat:
+    mode: development
+    workspace:
+      host: https://dbc-b969ce2a-e147.cloud.databricks.com
+    variables:
+      catalog: main
+      schema: wanderbricks_pipeline_uat
+
+  master:
+    mode: production
+    workspace:
+      host: https://dbc-b969ce2a-e147.cloud.databricks.com
+    variables:
+      catalog: main
+      schema: wanderbricks_pipeline
+    permissions:
+      - user_name: abhirup.pal93@outlook.com
+        level: CAN_MANAGE
