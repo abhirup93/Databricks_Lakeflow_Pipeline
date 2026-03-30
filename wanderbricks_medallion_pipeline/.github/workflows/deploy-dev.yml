@@ -8,7 +8,7 @@ on:
       - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/resources/**'
       - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/databricks.yml'
       - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/**'
-      - '.github/workflows/deploy-dev.yml'
+      - 'Databricks_Lakeflow_Pipeline/wanderbricks_medallion_pipeline/.github/workflows/deploy-dev.yml'
 
 jobs:
   deploy-dev:
