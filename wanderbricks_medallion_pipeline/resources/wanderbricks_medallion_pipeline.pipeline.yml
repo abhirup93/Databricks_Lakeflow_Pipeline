@@ -1,7 +1,7 @@
 resources:
   pipelines:
     wanderbricks_medallion_pipeline:
-      name: wanderbricks_medallion_pipeline
+      name: wanderbricks_medallion_pipeline - ${bundle.target}
       libraries:
         - glob:
             include: ../src/ingestion/bronze/bronze_bookings.sql
