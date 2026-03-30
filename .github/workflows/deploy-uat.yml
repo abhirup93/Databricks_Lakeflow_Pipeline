@@ -19,7 +19,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Databricks_Lakeflow_Pipeline
+        working-directory: wanderbricks_medallion_pipeline
 
     concurrency:
       group: deploy-uat
