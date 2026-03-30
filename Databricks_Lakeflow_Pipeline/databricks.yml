@@ -30,7 +30,7 @@ targets:
       catalog: main
       schema: wanderbricks_pipeline_dev
   uat:
-    mode: sit
+    mode: development
     workspace:
       host: https://dbc-b969ce2a-e147.cloud.databricks.com
       # We explicitly deploy to /Workspace/Users/abhirup.pal93@outlook.com to make sure we only have a single copy.
