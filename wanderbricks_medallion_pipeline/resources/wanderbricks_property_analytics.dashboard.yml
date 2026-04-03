@@ -1,0 +1,6 @@
+resources:
+  dashboards:
+    wanderbricks_property_analytics:
+      display_name: Wanderbricks Property Analytics - ${bundle.target}
+      warehouse_id: ec5d7dc6c21a25f5
+      file_path: ../src/wanderbricks_property_analytics.lvdash.json
