@@ -1,0 +1,366 @@
+{
+  "datasets": [
+    {
+      "displayName": "bronze_bookings",
+      "name": "8e352cc2",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.bronze_bookings"
+      ]
+    },
+    {
+      "displayName": "bronze_properties",
+      "name": "eaff0680",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.bronze_properties"
+      ]
+    },
+    {
+      "displayName": "bronze_reviews",
+      "name": "5f7ed373",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.bronze_reviews"
+      ]
+    },
+    {
+      "displayName": "gold_price_prediction",
+      "name": "ff711f63",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.gold_price_prediction"
+      ]
+    },
+    {
+      "displayName": "gold_property_performance",
+      "name": "87136bee",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.gold_property_performance"
+      ]
+    },
+    {
+      "displayName": "silver_bookings",
+      "name": "bccb39ae",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.silver_bookings"
+      ]
+    },
+    {
+      "displayName": "silver_properties",
+      "name": "0c5b17b0",
+      "queryLines": [
+        "SELECT * FROM main.wanderbricks_pipeline_dev.silver_properties"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "displayName": "Untitled page",
+      "layout": [
+        {
+          "position": {
+            "height": 4,
+            "width": 4,
+            "x": 0,
+            "y": 0
+          },
+          "widget": {
+            "name": "total_revenue",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "87136bee",
+                  "disaggregated": false,
+                  "fields": [
+                    {
+                      "expression": "SUM(`total_revenue`)",
+                      "name": "sum(total_revenue)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "encodings": {
+                "value": {
+                  "displayName": "Total Revenue",
+                  "fieldName": "sum(total_revenue)",
+                  "format": {
+                    "abbreviation": "compact",
+                    "currencyCode": "USD",
+                    "decimalPlaces": {
+                      "places": 0,
+                      "type": "exact"
+                    },
+                    "type": "number-currency"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Revenue"
+              },
+              "version": 2,
+              "widgetType": "counter"
+            }
+          }
+        },
+        {
+          "position": {
+            "height": 4,
+            "width": 4,
+            "x": 4,
+            "y": 0
+          },
+          "widget": {
+            "name": "property_count",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "87136bee",
+                  "disaggregated": false,
+                  "fields": [
+                    {
+                      "expression": "COUNT(DISTINCT `property_id`)",
+                      "name": "countdistinct(property_id)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "encodings": {
+                "value": {
+                  "displayName": "Property Count",
+                  "fieldName": "countdistinct(property_id)",
+                  "format": {
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "places": 0,
+                      "type": "exact"
+                    },
+                    "type": "number-plain"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Properties"
+              },
+              "version": 2,
+              "widgetType": "counter"
+            }
+          }
+        },
+        {
+          "position": {
+            "height": 4,
+            "width": 4,
+            "x": 8,
+            "y": 0
+          },
+          "widget": {
+            "name": "avg_rating",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "87136bee",
+                  "disaggregated": false,
+                  "fields": [
+                    {
+                      "expression": "AVG(`avg_review_rating`)",
+                      "name": "avg(avg_review_rating)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "encodings": {
+                "value": {
+                  "displayName": "Avg Rating",
+                  "fieldName": "avg(avg_review_rating)",
+                  "format": {
+                    "abbreviation": "none",
+                    "decimalPlaces": {
+                      "places": 2,
+                      "type": "exact"
+                    },
+                    "type": "number-plain"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Average Rating"
+              },
+              "version": 2,
+              "widgetType": "counter"
+            }
+          }
+        },
+        {
+          "position": {
+            "height": 8,
+            "width": 6,
+            "x": 0,
+            "y": 4
+          },
+          "widget": {
+            "name": "revenue_by_type",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "87136bee",
+                  "disaggregated": false,
+                  "fields": [
+                    {
+                      "expression": "`property_type`",
+                      "name": "property_type"
+                    },
+                    {
+                      "expression": "SUM(`total_revenue`)",
+                      "name": "sum(total_revenue)"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "encodings": {
+                "label": {
+                  "show": true
+                },
+                "x": {
+                  "displayName": "Property Type",
+                  "fieldName": "property_type",
+                  "scale": {
+                    "sort": {
+                      "by": "y-reversed"
+                    },
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "displayName": "Total Revenue",
+                  "fieldName": "sum(total_revenue)",
+                  "format": {
+                    "abbreviation": "compact",
+                    "currencyCode": "USD",
+                    "decimalPlaces": {
+                      "places": 0,
+                      "type": "exact"
+                    },
+                    "type": "number-currency"
+                  },
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue by Property Type"
+              },
+              "version": 3,
+              "widgetType": "bar"
+            }
+          }
+        },
+        {
+          "position": {
+            "height": 8,
+            "width": 6,
+            "x": 6,
+            "y": 4
+          },
+          "widget": {
+            "name": "top_properties",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "87136bee",
+                  "disaggregated": true,
+                  "fields": [
+                    {
+                      "expression": "`title`",
+                      "name": "title"
+                    },
+                    {
+                      "expression": "`property_type`",
+                      "name": "property_type"
+                    },
+                    {
+                      "expression": "`country`",
+                      "name": "country"
+                    },
+                    {
+                      "expression": "`total_revenue`",
+                      "name": "total_revenue"
+                    },
+                    {
+                      "expression": "`booking_count`",
+                      "name": "booking_count"
+                    },
+                    {
+                      "expression": "`avg_review_rating`",
+                      "name": "avg_review_rating"
+                    }
+                  ]
+                }
+              }
+            ],
+            "spec": {
+              "encodings": {
+                "columns": [
+                  {
+                    "displayName": "Property",
+                    "fieldName": "title"
+                  },
+                  {
+                    "displayName": "Type",
+                    "fieldName": "property_type"
+                  },
+                  {
+                    "displayName": "Country",
+                    "fieldName": "country"
+                  },
+                  {
+                    "displayName": "Revenue",
+                    "fieldName": "total_revenue"
+                  },
+                  {
+                    "displayName": "Bookings",
+                    "fieldName": "booking_count"
+                  },
+                  {
+                    "displayName": "Rating",
+                    "fieldName": "avg_review_rating"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top Properties by Revenue"
+              },
+              "rowsPerPage": 25,
+              "version": 2,
+              "widgetType": "table"
+            }
+          }
+        }
+      ],
+      "layoutVersion": "GRID_V1",
+      "name": "002b58cb",
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "applyModeEnabled": false,
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
+}
