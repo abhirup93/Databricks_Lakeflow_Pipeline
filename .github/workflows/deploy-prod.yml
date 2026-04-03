@@ -29,6 +29,9 @@ jobs:
     # ↑ GitHub pauses here — requires approvers to click
     #   "Approve and deploy" before any steps run
 
+    
+    permissions:
+      contents: write
     defaults:
       run:
         working-directory: wanderbricks_medallion_pipeline

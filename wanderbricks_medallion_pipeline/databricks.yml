@@ -38,6 +38,7 @@ targets:
   master:
     mode: production
     workspace:
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
       host: https://dbc-b969ce2a-e147.cloud.databricks.com
     variables:
       catalog: main
